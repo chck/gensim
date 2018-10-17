@@ -10,7 +10,7 @@ import logging
 import numpy as np
 from gensim import utils
 
-from numpy import zeros, dtype, float32 as REAL, ascontiguousarray, fromstring
+from numpy import zeros, dtype, float32 as REAL, ascontiguousarray, frombuffer
 
 from six.moves import xrange
 from six import iteritems
@@ -209,7 +209,7 @@ def _load_word2vec_format(cls, fname, fvocab=None, binary=False, encoding='utf8'
                     if ch != b'\n':  # ignore newlines in front of words (some binary files have)
                         word.append(ch)
                 word = utils.to_unicode(b''.join(word), encoding=encoding, errors=unicode_errors)
-                weights = fromstring(fin.read(binary_len), dtype=REAL).astype(datatype)
+                weights = frombuffer(fin.read(binary_len), dtype=REAL).astype(datatype)
                 add_word(word, weights)
         else:
             for line_no in xrange(vocab_size):
